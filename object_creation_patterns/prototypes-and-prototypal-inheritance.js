@@ -84,12 +84,23 @@ with contents from multiple objects (source objects).
 input: multiple objects
 output: an object that has all the functionality of the input objects
 
-can't seem to have more than one prototype per object
+rules:
+arguments to array
+for each object,
+	for each property
+		destination[property] = sourceProperty[property]
 
 */
 
 function extend(destination) {
-  // ...
+	var args = Array.prototype.slice.call(arguments, 1);
+	args.forEach(function(source) {
+		Object.getOwnPropertyNames(source).forEach(function(prop) {
+			destination[prop] = source[prop];
+		});
+	});
+
+	return destination;
 }
 
 var foo = {
@@ -117,3 +128,23 @@ var object = extend({}, foo, joe, funcs);
 
 console.log(object.b.x);          // 1
 object.sayHello();                // Hello, Joe
+
+/*
+
+The extend function is JavaScript's way for the "Mixin" pattern. For example in this case,
+our funcs object is a bag of functions/methods that can be mixed into objects with the extend
+function. Many popular JavaScript libraries and frameworks provide functionality like our extend
+function here. ECMAScript 6 (ES6) provides Object.assign method that does the same too.
+
+Object.assign in ES6
+_.extend in Underscore
+jQuery.extend
+
+also we can implment the shallowcopy function with extend(), if we don't care about preserving
+the prototype chain
+
+function shallowCopy(object) {
+	return extend({}, object);
+}
+
+*/
