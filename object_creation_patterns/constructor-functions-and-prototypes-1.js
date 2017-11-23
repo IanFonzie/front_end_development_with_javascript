@@ -160,21 +160,17 @@ Ninja object is created, the method prototype chain lookup happens when the meth
 called on the object. Since it's now defined on the prototype, when the object calls this
 method it will find it on the prototype and invoke it.
 
-*/
+function Ninja(){
+  this.swung = true;
+}
 
-// function Ninja(){
-//   this.swung = true;
-// }
+var ninja = new Ninja();
 
-// var ninja = new Ninja();
+Ninja.prototype.swingSword = function(){
+  return this.swung;
+}
 
-// Ninja.prototype.swingSword = function(){
-//   return this.swung;
-// }
-
-// console.log(ninja.swingSword());
-
-/*
+console.log(ninja.swingSword());
 
 5. What will the following code log out and why?
 
@@ -184,8 +180,6 @@ object is not the same one that was defined as the prototype of the objects crea
 will not have a reference to this new method because it's not in their prototype chain.
 
 Ninja.swingSword() will return a TypeError.
-
-*/
 
 function Ninja(){
   this.swung = true;
@@ -201,9 +195,9 @@ Ninja.prototype = {
 
 console.log(ninja.swingSword());
 
-/*
-
 6. Implement the method described in the comments below:
+
+*/
 
 function Ninja(){
   this.swung = false;
@@ -215,7 +209,34 @@ var ninjaB = new Ninja();
 // Add a swing method to the Ninja prototype which
 // returns itself and modifies swung
 
+Ninja.prototype.swing = function() {
+	this.swung = true;
+	return this;
+}
+
 console.log(ninjaA.swing().swung)      // this needs to be true
 console.log(ninjaB.swing().swung)      // this needs to be true
 
+/*
+
+This pattern of "chainable" method invocation on an object requires methods
+defined on the prototype to always return the context object (in this case, ninjaA
+and ninjaB)
+
+7. In this problem, we'll ask you to create a new instance of an object, without having direct access to the constructor function:
+
 */
+
+var ninjaA = (function() {
+  function Ninja(){};
+  return new Ninja();
+})();
+
+// create a ninjaB object
+var ninjaB = Object.create(ninjaA);
+
+// or
+// var ninjaB = new ninjaA.constructor()
+// ninjaA.constructor points to Ninja() aka the constructor function
+
+console.log(ninjaB.constructor === ninjaA.constructor)    // this should be true
