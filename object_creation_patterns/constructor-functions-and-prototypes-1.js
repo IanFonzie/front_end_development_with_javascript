@@ -234,6 +234,14 @@ var ninjaA = (function() {
 
 // create a ninjaB object
 var ninjaB = Object.create(ninjaA);
+// ninjaA is the prototype object of the ninjaB object
+// ninjaA and ninjaB have different __proto__ properties;
+// it doesn't directly have the constructor property
+// Object.getPrototypeOf(ninjaA).hasOwnProperty('constructor') === true
+// Object.getPrototypeOf(ninjaB) === ninjaA
+// Object.getPrototypeOf(ninjaB).hasOwnProperty('constructor') === false
+// Since ninjaB doesn't actually have the property, it will look for it in
+// it's prototype chain, which it finds on ninjaA's prototype.
 
 // or
 // var ninjaB = new ninjaA.constructor()
