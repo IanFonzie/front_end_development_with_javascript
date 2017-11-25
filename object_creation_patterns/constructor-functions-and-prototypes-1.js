@@ -241,7 +241,7 @@ var ninjaB = Object.create(ninjaA);
 // Object.getPrototypeOf(ninjaB) === ninjaA
 // Object.getPrototypeOf(ninjaB).hasOwnProperty('constructor') === false
 // Since ninjaB doesn't actually have the property, it will look for it in
-// it's prototype chain, which it finds on ninjaA's prototype.
+// its prototype chain, which it finds on ninjaA's prototype.
 
 // or
 // var ninjaB = new ninjaA.constructor()
