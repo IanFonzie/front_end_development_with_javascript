@@ -18,14 +18,15 @@ var shape = {
 	}
 };
 
-function Triangle(sideA, sideB, sideC) {
+function Triangle(a, b, c) {
 	this.type = 'triangle';
-	this.a = sideA;
-	this.b = sideB;
-	this.c = sideC;
+	this.a = a;
+	this.b = b;
+	this.c = c;
 }
 
 Triangle.prototype = shape;
+Triangle.prototype.constructor = Triangle;
 Triangle.prototype.getPerimeter = function() {
 	return this.a + this.b + this.c;
 }
