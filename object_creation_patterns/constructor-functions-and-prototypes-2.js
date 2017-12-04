@@ -171,10 +171,39 @@ foo.isPrototypeOf(bar);         // true
 
 5. Create a function neww, so that it works like the new operator:
 
+sets this to the object
+sets the __proto__ to the constructor's prototype
+
+I need to have a constructor that creates an object whose protoype
+
+Their solution:
+
+function neww(constuctor, args) {
+	var object = Object.create(constructor.prototype);
+	var result = constructor.apply(object, args);
+
+	return result === undefined ? object : result;
+}
+
+differences:
+- Their function is more robust. If it's accidentally used with a function that's 
+not intended to be used as a constructor, it will return the result of that function
+rather than return an object that doesn't exist.
+- All functions have a prototype, so an object will always be created if we pass in this
+prototype.
+- Problems occur when we call a function that was intended to be used as a constructor, we're
+passing it the context of the object we just created (an empty object) and applying it.
+- Depending on the body of the function, the arguments could be ignored or unintended side effects
+could occur. (i.e. if this is used anywhere in the function, the execution context of the function
+could be changed to he object created on the line above or the arguments could be used to invoke the 
+function, most likely leading to unexpected result)
+
 */
 
 function neww(constructor, args) {
-  // ..
+	var obj = Object.create(constructor.prototype);
+	var result = constructor.apply(obj, args);
+	return obj;
 }
 
 function Person(firstName, lastName) {
